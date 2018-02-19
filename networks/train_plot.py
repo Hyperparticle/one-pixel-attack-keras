@@ -1,7 +1,10 @@
 from matplotlib import pyplot as plt
+from IPython.display import clear_output
+import keras
 
-class PlotLearning(Callback):
-    __init__(self, clear_on_begin=False):
+# https://gist.github.com/stared/dfb4dfaf6d9a8501cd1cc8b8cb806d2e
+class PlotLearning(keras.callbacks.Callback):
+    def __init__(self, clear_on_begin=False):
         self.clear_on_begin = clear_on_begin
         self.reset()
     
@@ -51,5 +54,3 @@ class PlotLearning(Callback):
         ax2.legend(['train', 'val'], loc='best')
         
         plt.show()
-        
-plot_callback = PlotLearning()

@@ -140,7 +140,28 @@ def get_class_names():
     # Class names
     return names
 
+def plot_image(image, label_true, class_names, label_pred=None):
+    plt.grid()
+    plt.imshow(image)
 
+    labels_true_name = class_names[label_true]
+
+    # Show true and predicted classes
+    if label_pred is None:
+        xlabel = "True: "+labels_true_name
+    else:
+        # Name of the predicted class
+        labels_pred_name = class_names[label_pred]
+
+        xlabel = "True: "+labels_true_name+"\nPredicted: "+ labels_pred_name
+
+    # Show the class on the x-axis
+    plt.xlabel(xlabel)
+
+    plt.xticks([]) # Remove ticks from the plot
+    plt.yticks([])
+    plt.show() # Show the plot
+    
 
 def plot_images(images, labels_true, class_names, labels_pred=None):
 
