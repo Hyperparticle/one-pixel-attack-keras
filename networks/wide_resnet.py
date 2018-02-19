@@ -13,7 +13,7 @@ from keras import regularizers
 class WideResNet:
     def __init__(self):
         self.name               = 'wide_resnet'
-        self.model_filename      = 'networks/models/wide_resnet.h5'
+        self.model_filename     = 'networks/models/wide_resnet.h5'
         
         self.depth              = 16
         self.wide               = 8
@@ -157,4 +157,14 @@ class WideResNet:
 
     def predict(self, img):
         processed = self.color_process(img)
-        return self._model.predict(np.array([processed]))
+        return self._model.predict(np.array([processed]))[0]
+
+    def accuracy(self):
+        (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+        y_train = keras.utils.to_categorical(y_train, self.num_classes)
+        y_test = keras.utils.to_categorical(y_test, self.num_classes)
+        
+        # color preprocessing
+        x_train, x_test = self.color_preprocessing(x_train, x_test)
+
+        return self._model.evaluate(x_test, y_test, verbose=0)[1]
