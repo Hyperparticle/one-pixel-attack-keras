@@ -22,6 +22,8 @@ class LecunNet:
         self.weight_decay       = 0.0001
         self.log_filepath       = r'networks/models/lecun_net/'
 
+        self.acc = 0.7488 # Precalculated result for cifar10
+
         try:
             self._model = load_model(self.model_filename)
             self.param_count = self._model.count_params()
