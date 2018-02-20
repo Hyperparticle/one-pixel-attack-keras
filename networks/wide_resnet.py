@@ -28,6 +28,8 @@ class WideResNet:
         self.weight_decay       = 0.0005
         self.log_filepath       = r'networks/models/wide_resnet/'
 
+        self.acc = 0.9534 # Precalculated result for cifar10
+
         try:
             self._model = load_model(self.model_filename)
             self.param_count = self._model.count_params()

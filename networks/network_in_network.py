@@ -25,6 +25,8 @@ class NetworkInNetwork:
         self.dropout            = 0.5
         self.log_filepath       = r'networks/models/net_in_net/'
 
+        self.acc = 0.9074 # Precalculated result for cifar10
+
         try:
             self._model = load_model(self.model_filename)
             self.param_count = self._model.count_params()
