@@ -19,8 +19,7 @@ class PureCnn:
         self.name               = 'pure_cnn'
         self.model_filename     = 'networks/models/pure_cnn.h5'
         self.num_classes        = 10
-        self.input_shape        = 32, 32
-        self.img_channels       = 3
+        self.input_shape        = 32, 32, 3
         self.batch_size         = 128
         self.epochs             = 350
         self.learn_rate         = 1.0e-4
@@ -28,13 +27,11 @@ class PureCnn:
 
         try:
             self._model = load_model(self.model_filename)
+            self.param_count = self._model.count_params()
+            print('Successfully loaded', self.name)
         except (ImportError, ValueError, OSError):
             print('Failed to load', self.name)
-            print('Beginning new training session')
-            self.train()
-            
-        print('Successfully loaded', self.name)
-    
+        
     def color_preprocessing(self, x_train, x_test):
         x_train = x_train.astype('float32')
         x_test = x_test.astype('float32')
@@ -43,7 +40,6 @@ class PureCnn:
         for i in range(3):
             x_train[:,:,:,i] = (x_train[:,:,:,i] - mean[i]) / std[i]
             x_test[:,:,:,i] = (x_test[:,:,:,i] - mean[i]) / std[i]
-
         return x_train, x_test
 
     def color_process(self, img):
@@ -53,7 +49,6 @@ class PureCnn:
         std  = [62.9932, 62.0887, 66.7048]
         for i in range(3):
             img[:,:,i] = (img[:,:,i] - mean[i]) / std[i]
-        
         return img
 
     def pure_cnn_network(self, input_shape):
