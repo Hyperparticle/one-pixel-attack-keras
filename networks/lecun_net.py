@@ -1,29 +1,26 @@
-import numpy as np
-import matplotlib
-from matplotlib import pyplot as plt
 import keras
-from keras.models import Sequential
-from keras.optimizers import Adam, SGD
-from keras.callbacks import ModelCheckpoint, LearningRateScheduler, TensorBoard
-from keras.constraints import maxnorm
-from keras.models import load_model
-from keras.layers import GlobalAveragePooling2D, Lambda, Conv2D, MaxPooling2D, Dropout, Dense, Flatten, Activation
-from keras.preprocessing.image import ImageDataGenerator
+import numpy as np
+from keras import optimizers
 from keras.datasets import cifar10
+from keras.models import Sequential, load_model
+from keras.layers import Conv2D, Dense, Flatten, MaxPooling2D
+from keras.callbacks import LearningRateScheduler, TensorBoard, ModelCheckpoint
+from keras.preprocessing.image import ImageDataGenerator
+from keras.regularizers import l2
 
 from networks.train_plot import PlotLearning
 
-# A pure CNN model from https://arxiv.org/pdf/1412.6806.pdf
-class PureCnn:
+class LecunNet:
     def __init__(self):
-        self.name               = 'pure_cnn'
-        self.model_filename     = 'networks/models/pure_cnn.h5'
+        self.name               = 'lecun_net'
+        self.model_filename     = 'networks/models/lecun_net.h5'
         self.num_classes        = 10
         self.input_shape        = 32, 32, 3
         self.batch_size         = 128
-        self.epochs             = 350
-        self.learn_rate         = 1.0e-4
-        self.log_filepath       = r'networks/models/pure_cnn/'
+        self.epochs             = 200
+        self.iterations         = 391
+        self.weight_decay       = 0.0001
+        self.log_filepath       = r'networks/models/lecun_net/'
 
         try:
             self._model = load_model(self.model_filename)
@@ -31,7 +28,7 @@ class PureCnn:
             print('Successfully loaded', self.name)
         except (ImportError, ValueError, OSError):
             print('Failed to load', self.name)
-        
+
     def color_preprocessing(self, x_train, x_test):
         x_train = x_train.astype('float32')
         x_test = x_test.astype('float32')
@@ -51,33 +48,29 @@ class PureCnn:
             img[:,:,i] = (img[:,:,i] - mean[i]) / std[i]
         return img
 
-    def pure_cnn_network(self, input_shape):
+    def build_model(self):
         model = Sequential()
-        
-        model.add(Conv2D(96, (3, 3), activation='relu', padding = 'same', input_shape=input_shape))    
-        model.add(Dropout(0.2))
-        
-        model.add(Conv2D(96, (3, 3), activation='relu', padding = 'same'))  
-        model.add(Conv2D(96, (3, 3), activation='relu', padding = 'same', strides = 2))    
-        model.add(Dropout(0.5))
-        
-        model.add(Conv2D(192, (3, 3), activation='relu', padding = 'same'))    
-        model.add(Conv2D(192, (3, 3), activation='relu', padding = 'same'))
-        model.add(Conv2D(192, (3, 3), activation='relu', padding = 'same', strides = 2))    
-        model.add(Dropout(0.5))    
-        
-        model.add(Conv2D(192, (3, 3), padding = 'same'))
-        model.add(Activation('relu'))
-        model.add(Conv2D(192, (1, 1),padding='valid'))
-        model.add(Activation('relu'))
-        model.add(Conv2D(10, (1, 1), padding='valid'))
-
-        model.add(GlobalAveragePooling2D())
-        
-        model.add(Activation('softmax'))
-
+        model.add(Conv2D(6, (5, 5), padding='valid', activation = 'relu', kernel_initializer='he_normal', kernel_regularizer=l2(self.weight_decay), input_shape=self.input_shape))
+        model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+        model.add(Conv2D(16, (5, 5), padding='valid', activation = 'relu', kernel_initializer='he_normal', kernel_regularizer=l2(self.weight_decay)))
+        model.add(MaxPooling2D((2, 2), strides=(2, 2)))
+        model.add(Flatten())
+        model.add(Dense(120, activation = 'relu', kernel_initializer='he_normal', kernel_regularizer=l2(self.weight_decay) ))
+        model.add(Dense(84, activation = 'relu', kernel_initializer='he_normal', kernel_regularizer=l2(self.weight_decay) ))
+        model.add(Dense(10, activation = 'softmax', kernel_initializer='he_normal', kernel_regularizer=l2(self.weight_decay) ))
+        sgd = optimizers.SGD(lr=.1, momentum=0.9, nesterov=True)
+        model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy'])
         return model
-    
+
+    def scheduler(self, epoch):
+        if epoch <= 60:
+            return 0.05
+        if epoch <= 120:
+            return 0.01
+        if epoch <= 160:    
+            return 0.002
+        return 0.0004
+
     def train(self):
         (x_train, y_train), (x_test, y_test) = cifar10.load_data()
         y_train = keras.utils.to_categorical(y_train, self.num_classes)
@@ -86,7 +79,8 @@ class PureCnn:
         # color preprocessing
         x_train, x_test = self.color_preprocessing(x_train, x_test)
 
-        model = self.pure_cnn_network(self.input_shape)
+        # build network
+        model = self.build_model()
 
         # Save the best model during each training checkpoint
         checkpoint = ModelCheckpoint(self.model_filename,
@@ -99,23 +93,20 @@ class PureCnn:
 
         cbks = [checkpoint, plot_callback, tb_cb]
 
-        # set data augmentation
+        # using real-time data augmentation
         print('Using real-time data augmentation.')
         datagen = ImageDataGenerator(horizontal_flip=True,
                 width_shift_range=0.125,height_shift_range=0.125,fill_mode='constant',cval=0.)
 
         datagen.fit(x_train)
 
-        model.compile(loss='categorical_crossentropy', # Better loss function for neural networks
-                    optimizer=Adam(lr=self.learn_rate), # Adam optimizer with 1.0e-4 learning rate
-                    metrics = ['accuracy']) # Metrics to be evaluated by the model
-
-        model.fit_generator(datagen.flow(x_train, y_train, batch_size = self.batch_size),
-                            epochs = self.epochs,
-                            validation_data= (x_test, y_test),
+        # start traing 
+        model.fit_generator(datagen.flow(x_train, y_train,batch_size=self.batch_size),
+                            steps_per_epoch=self.iterations,
+                            epochs=self.epochs,
                             callbacks=cbks,
-                            verbose=1)
-
+                            validation_data=(x_test, y_test))
+        # save model
         model.save(self.model_filename)
 
         self._model = model
@@ -133,3 +124,6 @@ class PureCnn:
         x_train, x_test = self.color_preprocessing(x_train, x_test)
 
         return self._model.evaluate(x_test, y_test, verbose=0)[1]
+
+
+

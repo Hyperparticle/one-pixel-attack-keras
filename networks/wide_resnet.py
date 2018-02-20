@@ -10,6 +10,8 @@ from keras.models import Model, load_model
 from keras import optimizers
 from keras import regularizers
 
+from networks.train_plot import PlotLearning
+
 class WideResNet:
     def __init__(self):
         self.name               = 'wide_resnet'
@@ -28,12 +30,10 @@ class WideResNet:
 
         try:
             self._model = load_model(self.model_filename)
+            self.param_count = self._model.count_params()
+            print('Successfully loaded', self.name)
         except (ImportError, ValueError, OSError):
             print('Failed to load', self.name)
-            print('Beginning new training session')
-            self.train()
-            
-        print('Successfully loaded', self.name)
 
     def scheduler(self, epoch):
         if epoch <= 60:
@@ -52,7 +52,6 @@ class WideResNet:
         for i in range(3):
             x_train[:,:,:,i] = (x_train[:,:,:,i] - mean[i]) / std[i]
             x_test[:,:,:,i] = (x_test[:,:,:,i] - mean[i]) / std[i]
-
         return x_train, x_test
 
     def color_process(self, img):
@@ -62,7 +61,6 @@ class WideResNet:
         std  = [62.9932, 62.0887, 66.7048]
         for i in range(3):
             img[:,:,i] = (img[:,:,i] - mean[i]) / std[i]
-        
         return img
 
     def wide_residual_network(self, img_input,classes_num,depth,k):
@@ -135,8 +133,8 @@ class WideResNet:
         change_lr = LearningRateScheduler(self.scheduler)
         checkpoint = ModelCheckpoint(self.model_filename, 
                 monitor='val_loss', verbose=0, save_best_only= True, mode='auto')
-
-        cbks = [change_lr,tb_cb, checkpoint]
+        plot_callback = PlotLearning()
+        cbks = [change_lr,tb_cb,checkpoint,plot_callback]
 
         # set data augmentation
         print('Using real-time data augmentation.')
@@ -153,6 +151,7 @@ class WideResNet:
                             validation_data=(x_test, y_test))
         resnet.save(self.model_filename)
 
+        self.param_count = self._model.count_params()
         self._model = resnet
 
     def predict(self, img):
