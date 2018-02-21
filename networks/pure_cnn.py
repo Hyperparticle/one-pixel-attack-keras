@@ -44,15 +44,6 @@ class PureCnn:
             x_test[:,:,:,i] = (x_test[:,:,:,i] - mean[i]) / std[i]
         return x_train, x_test
 
-    def color_process(self, img):
-        img = img.astype('float32')
-        
-        mean = [125.307, 122.95, 113.865]
-        std  = [62.9932, 62.0887, 66.7048]
-        for i in range(3):
-            img[:,:,i] = (img[:,:,i] - mean[i]) / std[i]
-        return img
-
     def pure_cnn_network(self, input_shape):
         model = Sequential()
         
@@ -122,9 +113,23 @@ class PureCnn:
 
         self._model = model
 
+    def color_process(self, imgs):
+        if imgs.ndim < 4:
+            imgs = np.array([imgs])
+        imgs = imgs.astype('float32')
+        mean = [125.307, 122.95, 113.865]
+        std  = [62.9932, 62.0887, 66.7048]
+        for img in imgs:
+            for i in range(3):
+                img[:,:,i] = (img[:,:,i] - mean[i]) / std[i]
+        return imgs
+
     def predict(self, img):
         processed = self.color_process(img)
-        return self._model.predict(np.array([processed]))[0]
+        return self._model.predict(processed, batch_size=self.batch_size)
+    
+    def predict_one(self, img):
+        return self.predict(img)[0]
 
     def accuracy(self):
         (x_train, y_train), (x_test, y_test) = cifar10.load_data()
