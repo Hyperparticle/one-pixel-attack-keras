@@ -287,3 +287,21 @@ def perturb_image_relative(x, img):
         x_pos, y_pos, rgb = *x[:2], x[2:]
         img[x_pos][y_pos] = np.clip(img[x_pos][y_pos] + rgb - scale, 0, 255)
     return img
+
+def evaluate_models(models, x_test, y_test):
+    correct_imgs = []
+    network_stats = []
+    for model in models:
+        print('Evaluating', model.name)
+        
+        predictions = model.predict(x_test)
+        
+        correct = [[model.name,i,label,np.max(pred),pred]
+                for i,(label,pred)
+                in enumerate(zip(y_test[:,0],predictions))
+                if label == np.argmax(pred)]
+        accuracy = len(correct) / len(x_test)
+        
+        correct_imgs += correct
+        network_stats += [[model.name, accuracy, model.param_count]]
+    return network_stats, correct_imgs
