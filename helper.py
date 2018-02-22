@@ -130,7 +130,6 @@ def get_train_data():
 
 
 def get_class_names():
-
     # Load class names
     raw = unpickle("batches.meta")[b'label_names']
 
@@ -163,25 +162,28 @@ def plot_image(image, label_true, class_names, label_pred=None):
     plt.show() # Show the plot
     
 
-def plot_images(images, labels_true, class_names, labels_pred=None):
+def plot_images(images, labels_true, class_names, labels_pred=None, 
+    confidence=None, titles=None):
 
     assert len(images) == len(labels_true)
 
     # Create a figure with sub-plots
-    fig, axes = plt.subplots(3, 3, figsize = (8,8))
+    fig, axes = plt.subplots(3, 3, figsize = (10,10))
 
     # Adjust the vertical spacing
-    if labels_pred is None:
-        hspace = 0.2
-    else:
-        hspace = 0.5
-    fig.subplots_adjust(hspace=hspace, wspace=0.3)
+    hspace = 0.2
+    if labels_pred is not None:
+        hspace += 0.2
+    if titles is not None:
+        hspace += 0.2
+    
+    fig.subplots_adjust(hspace=hspace, wspace=0.0)
 
     for i, ax in enumerate(axes.flat):
         # Fix crash when less than 9 images
         if i < len(images):
             # Plot the image
-            ax.imshow(images[i], interpolation='spline16')
+            ax.imshow(images[i])
             
             # Name of the true class
             labels_true_name = class_names[labels_true[i]]
@@ -193,10 +195,15 @@ def plot_images(images, labels_true, class_names, labels_pred=None):
                 # Name of the predicted class
                 labels_pred_name = class_names[labels_pred[i]]
 
-                xlabel = "True: "+labels_true_name+"\nPredicted: "+ labels_pred_name
+                xlabel = "True: "+labels_true_name+"\nPred: "+ labels_pred_name
+                if (confidence is not None):
+                    xlabel += " (" + "{0:.1f}".format(confidence[i] * 100) + "%)"
 
             # Show the class on the x-axis
             ax.set_xlabel(xlabel)
+
+            if titles is not None:
+                ax.set_title(titles[i])
         
         # Remove ticks from the plot
         ax.set_xticks([])
@@ -253,8 +260,32 @@ def visualize_errors(images_test, labels_test, class_names, labels_pred, correct
                 labels_true=labels_true[0:9],
                 class_names=class_names,
                 labels_pred=labels_error[0:9])
+
+def visualize_attack(df, class_names):
+    results = df[df.success].sample(9)
+    images = np.array(results.attack_image)
+    labels_true = np.array(results.true)
+    labels_pred = np.array(results.predicted)
+    titles = np.array(results.model)
+    # confidence = np.array([np.max(p) for p in results.predicted_probs])
     
-    
+    # Plot the first 9 images.
+    plot_images(images=images,
+                labels_true=labels_true,
+                class_names=class_names,
+                labels_pred=labels_pred,
+                titles=titles)
+                # confidence=confidence)
+
+def attack_stats(df):
+    stats = []
+    for model in models:
+        m_result = untargeted_results[untargeted_results.model == model.name]
+        rate = len(m_result[m_result.success]) / len(m_result)
+        accuracy = np.array(network_stats[network_stats.name == model.name].accuracy)[0]
+        stats.append([model.name, accuracy, rate])
+    return pd.DataFrame(stats, columns=['model', 'accuracy', 'attack_success_rate'])
+
 def predict_classes(model, images_test, labels_test):
     
     # Predict class of image using model
