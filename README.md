@@ -2,9 +2,9 @@
 
 How simple is it to cause a deep neural network to misclassify an image if we are only allowed to modify the color of one pixel? Surprisingly, it's very simple. In many cases, we can even cause the network to return any answer we want.
 
-The following project is a Keras reimplementation and tutorial of "[One pixel attack for fooling deep neural networks](https://arxiv.org/abs/1710.08864)".
+The following project is a Keras reimplementation and tutorial of ["One pixel attack for fooling deep neural networks"](https://arxiv.org/abs/1710.08864).
 
-[![Who would win?](images/who-would-win.jpg)](https://www.reddit.com/r/ProgrammerHumor/comments/79g0m6/one_pixel_attack_for_fooling_deep_neural_networks/?ref=share&ref_source=link)
+[![Who would win?](images/who-would-win.jpg "one thicc boi that's who")](https://www.reddit.com/r/ProgrammerHumor/comments/79g0m6/one_pixel_attack_for_fooling_deep_neural_networks/?ref=share&ref_source=link)
 
 ## How it works
 
@@ -14,7 +14,7 @@ By using an Evolutionary Algorithm called Differential Evolution (DE), we can it
 
 See below for some examples of successful attacks:
 
-![Examples](images/pred.png "thicc indeed")
+![[Examples](one-pixel-attack.ipynb)](images/pred.png "thicc indeed")
 
 ## Getting Started
 
