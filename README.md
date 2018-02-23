@@ -41,12 +41,15 @@ jupyter notebook ./one-pixel-attack.ipynb
 
 ## Training and Testing
 
+TODO: need to implement a CLI!
+
 ## Milestones
 
 - [x] Cifar10 dataset
 - [x] Tutorial notebook
 - [x] Lecun Network, Network in Network, Residual Network, DenseNet models
-- [] Efficient differential evolution implementation
-- [] MNIST dataset
-- [] ImageNet dataset
-- [] Test on Capsule Networks
+- [ ] Configurable command-line interface
+- [ ] Efficient differential evolution implementation
+- [ ] MNIST dataset
+- [ ] ImageNet dataset
+- [ ] Test on Capsule Networks
