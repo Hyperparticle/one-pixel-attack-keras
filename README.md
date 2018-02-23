@@ -14,7 +14,7 @@ By using an Evolutionary Algorithm called Differential Evolution (DE), we can it
 
 See below for some examples of successful attacks:
 
-![[Examples](one-pixel-attack.ipynb)](images/pred.png "thicc indeed")
+[![Examples](images/pred.png "thicc indeed")](one-pixel-attack.ipynb)
 
 ## Getting Started
 
