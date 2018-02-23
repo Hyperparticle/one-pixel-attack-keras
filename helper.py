@@ -8,6 +8,7 @@ import numpy as np
 from keras.utils import np_utils
 # To plot graphs and display images
 from matplotlib import pyplot as plt
+import pandas as pd
 
 
 #constants
@@ -277,10 +278,10 @@ def visualize_attack(df, class_names):
                 titles=titles)
                 # confidence=confidence)
 
-def attack_stats(df):
+def attack_stats(df, models, network_stats):
     stats = []
     for model in models:
-        m_result = untargeted_results[untargeted_results.model == model.name]
+        m_result = df[df.model == model.name]
         rate = len(m_result[m_result.success]) / len(m_result)
         accuracy = np.array(network_stats[network_stats.name == model.name].accuracy)[0]
         stats.append([model.name, accuracy, rate])
