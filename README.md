@@ -43,6 +43,19 @@ cd ./one-pixel-attack-keras
 jupyter notebook ./one-pixel-attack.ipynb
 ```
 
+## Results
+
+Preliminary results after running several experiments:
+
+**Untargeted attack on 1,2,3 pixel perturbations of 100 samples each**
+| model      | parameters | test accuracy | attack success rate  |
+| ---------- | ---------- | ------------- | -------------------- |
+| lecun_net  | 62K        | 0.7488        | 0.3444               |
+| pure_cnn   | 1.4M       | 0.8877        | 0.0888               |
+| net_in_net | 970K       | 0.9074        | 0.3074               |
+| resnet     | 470K       | 0.9231        | 0.2333               |
+| capsnet    | 12M        | 0.6569        | 0.2100               |
+
 ## Training and Testing
 
 TODO: need to implement a CLI!
@@ -52,9 +65,8 @@ TODO: need to implement a CLI!
 - [x] Cifar10 dataset
 - [x] Tutorial notebook
 - [x] Lecun Network, Network in Network, Residual Network, DenseNet models
+- [ ] CapsNet (capsule network) model
 - [ ] Configurable command-line interface
-- [ ] Reduce repository size, download models when needed
 - [ ] Efficient differential evolution implementation
 - [ ] MNIST dataset
 - [ ] ImageNet dataset
-- [ ] Test on Capsule Networks
