@@ -33,8 +33,8 @@ pip install -r ./requirements.txt
 2. Clone the repository.
 
 ```bash
-git clone https://github.com/Hyperparticle/one-pixel-attack
-cd ./one-pixel-attack
+git clone https://github.com/Hyperparticle/one-pixel-attack-keras
+cd ./one-pixel-attack-keras
 ```
 
 3. Run the iPython tutorial notebook with Jupyter.
@@ -53,6 +53,7 @@ TODO: need to implement a CLI!
 - [x] Tutorial notebook
 - [x] Lecun Network, Network in Network, Residual Network, DenseNet models
 - [ ] Configurable command-line interface
+- [ ] Reduce repository size, download models when needed
 - [ ] Efficient differential evolution implementation
 - [ ] MNIST dataset
 - [ ] ImageNet dataset
