@@ -9,6 +9,8 @@ from keras.utils import np_utils
 # To plot graphs and display images
 from matplotlib import pyplot as plt
 import pandas as pd
+import requests
+from tqdm import tqdm
 
 
 #constants
@@ -337,3 +339,26 @@ def evaluate_models(models, x_test, y_test):
         correct_imgs += correct
         network_stats += [[model.name, accuracy, model.param_count]]
     return network_stats, correct_imgs
+
+def download_from_url(url, dst):
+    """
+    @param: url to download file
+    @param: dst place to put the file
+    """
+    # Streaming, so we can iterate over the response.
+    r = requests.get(url, stream=True)
+
+    with open(dst, 'wb') as f:
+        for data in tqdm(r.iter_content(), unit='B', unit_scale=True):
+            f.write(data)
+        
+def download_model(model_name):
+    print('Downloading', model_name)
+    
+    url = 'https://github.com/Hyperparticle/keras-models/raw/master/one-pixel-attack-keras/'
+    path = 'networks/models/'
+    
+    full_url = url + model_name + '.h5'
+    file_name = path + model_name + '.h5'
+
+    download_from_url(full_url, file_name)

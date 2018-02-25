@@ -15,9 +15,9 @@ import keras.backend as K
 from keras import optimizers
 import numpy as np
 
-from networks.capsnet.capsule_layers import CapsuleLayer, PrimaryCapsule, Length,Mask
-from networks.capsnet.capsulenet import CapsNet as CapsNetv1
-from networks.capsnet.helper_function import load_cifar_10,load_cifar_100
+from networks.capsulenet.capsule_layers import CapsuleLayer, PrimaryCapsule, Length,Mask
+from networks.capsulenet.capsulenet import CapsNet as CapsNetv1
+from networks.capsulenet.helper_function import load_cifar_10,load_cifar_100
 
 
 def convolution_block(input,kernel_size=8,filters=16,kernel_regularizer=l2(1.e-4)):
@@ -107,7 +107,7 @@ def margin_loss(y_true, y_pred):
 
     return K.mean(K.sum(L, 1))
 
-def train(epochs=200,batch_size=64,mode=1):
+def train(epochs=50,batch_size=64,mode=1):
     import numpy as np
     import os
     from keras import callbacks
@@ -139,7 +139,7 @@ def train(epochs=200,batch_size=64,mode=1):
                   loss=[margin_loss, 'mse'],
                   loss_weights=[1., 0.1],
                   metrics={'output_recon':'accuracy','output':'accuracy'})
-    from networks.capsnet.helper_function import data_generator
+    from networks.capsulenet.helper_function import data_generator
 
     generator = data_generator(x_train,y_train,batch_size)
     # Image generator significantly increase the accuracy and reduce validation loss
@@ -148,11 +148,13 @@ def train(epochs=200,batch_size=64,mode=1):
                         validation_data=([x_test, y_test], [y_test, x_test]),
                         epochs=epochs, verbose=1, max_q_size=100,
                         callbacks=[log,tb,checkpoint,lr_decay])
+    
+    return model
 
 def test(epoch, mode=1):
     import matplotlib.pyplot as plt
     from PIL import Image
-    from networks.capsnet.helper_function import combine_images
+    from networks.capsulenet.helper_function import combine_images
 
     if mode == 1:
         num_classes =10

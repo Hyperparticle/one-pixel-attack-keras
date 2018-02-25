@@ -99,3 +99,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+*.h5
+
+!networks/models/lecun_net.h5
+!networks/models/resnet.h5

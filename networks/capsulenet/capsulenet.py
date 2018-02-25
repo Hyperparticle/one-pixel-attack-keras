@@ -21,7 +21,7 @@ from keras import backend as K
 from keras.utils import to_categorical
 import numpy as np
 
-from networks.capsnet.capsulelayers import CapsuleLayer, PrimaryCap, Length, Mask
+from networks.capsulenet.capsulelayers import CapsuleLayer, PrimaryCap, Length, Mask
 
 def CapsNet(input_shape, n_class, n_route):
     """
@@ -122,7 +122,7 @@ def train(model, data, args):
     model.save_weights(args.save_dir + '/trained_model.h5')
     print('Trained model saved to \'%s/trained_model.h5\'' % args.save_dir)
 
-    from networks.capsnet.helper_function import plot_log
+    from networks.capsulenet.helper_function import plot_log
     plot_log(args.save_dir + '/log.csv', show=True)
 
     return model
@@ -135,7 +135,7 @@ def test(model, data):
     print('Test acc:', np.sum(np.argmax(y_pred, 1) == np.argmax(y_test, 1))/y_test.shape[0])
 
     import matplotlib.pyplot as plt
-    from networks.capsnet.helper_function import combine_images
+    from networks.capsulenet.helper_function import combine_images
     from PIL import Image
 
     img = combine_images(np.concatenate([x_test[:50],x_recon[:50]]))

@@ -4,3 +4,5 @@ pandas
 numpy
 matplotlib
 scipy
+tqdm
+requests

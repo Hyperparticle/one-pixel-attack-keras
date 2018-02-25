@@ -11,6 +11,7 @@ from keras import optimizers
 from keras import regularizers
 
 from networks.train_plot import PlotLearning
+from helper import download_model
 
 class WideResNet:
     def __init__(self):
@@ -36,6 +37,14 @@ class WideResNet:
             print('Successfully loaded', self.name)
         except (ImportError, ValueError, OSError):
             print('Failed to load', self.name)
+            print('Downloading model')
+            try:
+                download_model(self.name)
+                self._model = load_model(self.model_filename)
+                self.param_count = self._model.count_params()
+                print('Successfully loaded', self.name)
+            except (ImportError, ValueError, OSError):
+                print('Failed to download model')
 
     def scheduler(self, epoch):
         if epoch <= 60:

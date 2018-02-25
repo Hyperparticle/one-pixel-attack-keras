@@ -49,13 +49,13 @@ Preliminary results after running several experiments:
 
 **Untargeted attack on 1,2,3 pixel perturbations of 100 samples each**
 
-| model      | parameters | test accuracy | attack success rate  |
-| ---------- | ---------- | ------------- | -------------------- |
-| lecun_net  | 62K        | 74.9%         | 34.4%                |
-| pure_cnn   | 1.4M       | 88.7%         | 26.3%                |
-| net_in_net | 970K       | 90.7%         | 30.7%                |
-| resnet     | 470K       | 92.3%         | 23.3%                |
-| capsnet    | 12M        | 65.7%         | 21.0%                |
+| model              | parameters | test accuracy | attack success rate  |
+| ------------------ | ---------- | ------------- | -------------------- |
+| Lecun Net          | 62K        | 74.9%         | 34.4%                |
+| Pure CNN           | 1.4M       | 88.7%         | 26.3%                |
+| Network in Network | 970K       | 90.7%         | 30.7%                |
+| ResNet             | 470K       | 92.3%         | 23.3%                |
+| CapsNet            | 12M        | 65.7%         | 21.0%                |
 
 The success rate is much lower than demonstrated in the paper, but that's mostly due to an inefficient differential evolution implementation. This should be fixed soon.
 
