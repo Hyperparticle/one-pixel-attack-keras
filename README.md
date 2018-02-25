@@ -59,6 +59,8 @@ Preliminary results after running several experiments:
 
 The success rate is much lower than demonstrated in the paper, but that's mostly due to an inefficient differential evolution implementation. This should be fixed soon.
 
+It appears that the capsule network CapsNet, while more resilient to the one pixel attack than all other CNNs, is still vulnerable.
+
 ## Training and Testing
 
 TODO: need to implement a CLI!
@@ -68,7 +70,7 @@ TODO: need to implement a CLI!
 - [x] Cifar10 dataset
 - [x] Tutorial notebook
 - [x] Lecun Network, Network in Network, Residual Network, DenseNet models
-- [ ] CapsNet (capsule network) model
+- [x] CapsNet (capsule network) model
 - [ ] Configurable command-line interface
 - [ ] Efficient differential evolution implementation
 - [ ] MNIST dataset
