@@ -48,6 +48,7 @@ jupyter notebook ./one-pixel-attack.ipynb
 Preliminary results after running several experiments:
 
 **Untargeted attack on 1,2,3 pixel perturbations of 100 samples each**
+
 | model      | parameters | test accuracy | attack success rate  |
 | ---------- | ---------- | ------------- | -------------------- |
 | lecun_net  | 62K        | 0.7488        | 0.3444               |
