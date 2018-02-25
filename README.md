@@ -51,7 +51,7 @@ Preliminary results after running several experiments:
 | model      | parameters | test accuracy | attack success rate  |
 | ---------- | ---------- | ------------- | -------------------- |
 | lecun_net  | 62K        | 0.7488        | 0.3444               |
-| pure_cnn   | 1.4M       | 0.8877        | 0.0888               |
+| pure_cnn   | 1.4M       | 0.8877        | 0.2633               |
 | net_in_net | 970K       | 0.9074        | 0.3074               |
 | resnet     | 470K       | 0.9231        | 0.2333               |
 | capsnet    | 12M        | 0.6569        | 0.2100               |
