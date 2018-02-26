@@ -17,6 +17,7 @@ from keras.utils import plot_model
 from networks.train_plot import PlotLearning
 from helper import download_model
 
+# Code taken from https://github.com/BIGBALLON/cifar-10-cnn
 class DenseNet:
     def __init__(self, epochs=250, batch_size=64, load_weights=True):
         self.name               = 'densenet'

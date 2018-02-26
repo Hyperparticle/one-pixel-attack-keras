@@ -15,6 +15,7 @@ from networks.train_plot import PlotLearning
 from helper import download_model
 
 # A pure CNN model from https://arxiv.org/pdf/1412.6806.pdf
+# Code taken from https://github.com/09rohanchopra/cifar10
 class PureCnn:
     def __init__(self, epochs=350, batch_size=128, load_weights=True):
         self.name               = 'pure_cnn'

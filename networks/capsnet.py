@@ -4,6 +4,7 @@ import numpy as np
 from networks.capsulenet.capsule_net import CapsNetv1, train as train_net
 from helper import download_model
 
+# Capsule Network taken from https://github.com/theblackcat102/dynamic-routing-capsule-cifar
 class CapsNet:
     def __init__(self, epochs=200, batch_size=128, load_weights=True):
         self.name               = 'capsnet'

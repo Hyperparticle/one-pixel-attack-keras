@@ -11,6 +11,7 @@ from keras.regularizers import l2
 from networks.train_plot import PlotLearning
 from helper import download_model
 
+# Code taken from https://github.com/BIGBALLON/cifar-10-cnn
 class LecunNet:
     def __init__(self, epochs=200, batch_size=128, load_weights=True):
         self.name               = 'lecun_net'
