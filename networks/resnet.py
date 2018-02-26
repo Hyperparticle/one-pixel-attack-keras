@@ -12,7 +12,7 @@ from networks.train_plot import PlotLearning
 from helper import download_model
 
 class ResNet:
-    def __init__(self):
+    def __init__(self, epochs=200, batch_size=128, load_weights=True):
         self.name               = 'resnet'
         self.model_filename     = 'networks/models/resnet.h5'
         
@@ -20,28 +20,27 @@ class ResNet:
         self.num_classes        = 10
         self.img_rows, self.img_cols = 32, 32
         self.img_channels       = 3
-        self.batch_size         = 128
-        self.epochs             = 200
+        self.batch_size         = batch_size
+        self.epochs             = epochs
         self.iterations         = 50000 // self.batch_size
         self.weight_decay       = 0.0001
         self.log_filepath       = r'networks/models/resnet/'
 
-        self.acc = 0.9231 # Precalculated result for cifar10
-
-        try:
-            self._model = load_model(self.model_filename)
-            self.param_count = self._model.count_params()
-            print('Successfully loaded', self.name)
-        except (ImportError, ValueError, OSError):
-            print('Failed to load', self.name)
-            print('Downloading model')
+        if load_weights:
             try:
-                download_model(self.name)
                 self._model = load_model(self.model_filename)
                 self.param_count = self._model.count_params()
                 print('Successfully loaded', self.name)
             except (ImportError, ValueError, OSError):
-                print('Failed to download model')
+                print('Failed to load', self.name)
+                print('Downloading model')
+                try:
+                    download_model(self.name)
+                    self._model = load_model(self.model_filename)
+                    self.param_count = self._model.count_params()
+                    print('Successfully loaded', self.name)
+                except (ImportError, ValueError, OSError):
+                    print('Failed to download model')
 
     def color_preprocessing(self, x_train,x_test):
         x_train = x_train.astype('float32')
@@ -135,7 +134,7 @@ class ResNet:
         img_input = Input(shape=(self.img_rows,self.img_cols,self.img_channels))
         output    = self.residual_network(img_input,self.num_classes,self.stack_n)
         resnet    = Model(img_input, output)
-        print(resnet.summary())
+        resnet.summary()
 
         # set optimizer
         sgd = optimizers.SGD(lr=.1, momentum=0.9, nesterov=True)

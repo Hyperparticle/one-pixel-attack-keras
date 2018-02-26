@@ -5,31 +5,34 @@ from networks.capsulenet.capsule_net import CapsNetv1, train as train_net
 from helper import download_model
 
 class CapsNet:
-    def __init__(self):
+    def __init__(self, epochs=200, batch_size=128, load_weights=True):
         self.name               = 'capsnet'
         self.model_filename     = 'networks/models/capsnet.h5'
         self.num_classes        = 10
         self.input_shape        = 32, 32, 3
         self.num_routes         = 3
-        self.batch_size         = 128
+        self.batch_size         = batch_size
+        self.epochs             = epochs
 
         self._model = CapsNetv1(input_shape=self.input_shape,
                         n_class=self.num_classes,
                         n_route=self.num_routes)
-        try:
-            self._model.load_weights(self.model_filename)
-            self.param_count = self._model.count_params()
-            print('Successfully loaded', self.name)
-        except (ImportError, ValueError, OSError):
-            print('Failed to load', self.name)
-            print('Downloading model')
+
+        if load_weights:
             try:
-                download_model(self.name)
                 self._model.load_weights(self.model_filename)
                 self.param_count = self._model.count_params()
                 print('Successfully loaded', self.name)
             except (ImportError, ValueError, OSError):
-                print('Failed to download model')
+                print('Failed to load', self.name)
+                print('Downloading model')
+                try:
+                    download_model(self.name)
+                    self._model.load_weights(self.model_filename)
+                    self.param_count = self._model.count_params()
+                    print('Successfully loaded', self.name)
+                except (ImportError, ValueError, OSError):
+                    print('Failed to download model')
 
     def train(self):
         self._model = train_net()

@@ -1,5 +1,6 @@
 jupyter
 keras
+tensorflow-gpu
 pandas
 numpy
 matplotlib

@@ -16,30 +16,31 @@ from helper import download_model
 
 # A pure CNN model from https://arxiv.org/pdf/1412.6806.pdf
 class PureCnn:
-    def __init__(self):
+    def __init__(self, epochs=350, batch_size=128, load_weights=True):
         self.name               = 'pure_cnn'
         self.model_filename     = 'networks/models/pure_cnn.h5'
         self.num_classes        = 10
         self.input_shape        = 32, 32, 3
-        self.batch_size         = 128
-        self.epochs             = 350
+        self.batch_size         = batch_size
+        self.epochs             = epochs
         self.learn_rate         = 1.0e-4
         self.log_filepath       = r'networks/models/pure_cnn/'
 
-        try:
-            self._model = load_model(self.model_filename)
-            self.param_count = self._model.count_params()
-            print('Successfully loaded', self.name)
-        except (ImportError, ValueError, OSError):
-            print('Failed to load', self.name)
-            print('Downloading model')
+        if load_weights:
             try:
-                download_model(self.name)
                 self._model = load_model(self.model_filename)
                 self.param_count = self._model.count_params()
                 print('Successfully loaded', self.name)
             except (ImportError, ValueError, OSError):
-                print('Failed to download model')
+                print('Failed to load', self.name)
+                print('Downloading model')
+                try:
+                    download_model(self.name)
+                    self._model = load_model(self.model_filename)
+                    self.param_count = self._model.count_params()
+                    print('Successfully loaded', self.name)
+                except (ImportError, ValueError, OSError):
+                    print('Failed to download model')
 
         
     def color_preprocessing(self, x_train, x_test):
@@ -88,6 +89,7 @@ class PureCnn:
         x_train, x_test = self.color_preprocessing(x_train, x_test)
 
         model = self.pure_cnn_network(self.input_shape)
+        model.summary()
 
         # Save the best model during each training checkpoint
         checkpoint = ModelCheckpoint(self.model_filename,

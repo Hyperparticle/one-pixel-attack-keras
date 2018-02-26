@@ -14,34 +14,33 @@ from networks.train_plot import PlotLearning
 from helper import download_model
 
 class NetworkInNetwork:
-    def __init__(self):
+    def __init__(self, epochs=200, batch_size=128, load_weights=True):
         self.name               = 'net_in_net'
         self.model_filename     = 'networks/models/net_in_net.h5'
         self.num_classes        = 10
         self.input_shape        = 32, 32, 3
-        self.batch_size         = 128
-        self.epochs             = 200
+        self.batch_size         = batch_size
+        self.epochs             = epochs
         self.iterations         = 391
         self.weight_decay       = 0.0001
         self.dropout            = 0.5
         self.log_filepath       = r'networks/models/net_in_net/'
 
-        self.acc = 0.9074 # Precalculated result for cifar10
-
-        try:
-            self._model = load_model(self.model_filename)
-            self.param_count = self._model.count_params()
-            print('Successfully loaded', self.name)
-        except (ImportError, ValueError, OSError):
-            print('Failed to load', self.name)
-            print('Downloading model')
+        if load_weights:
             try:
-                download_model(self.name)
                 self._model = load_model(self.model_filename)
                 self.param_count = self._model.count_params()
                 print('Successfully loaded', self.name)
             except (ImportError, ValueError, OSError):
-                print('Failed to download model')
+                print('Failed to load', self.name)
+                print('Downloading model')
+                try:
+                    download_model(self.name)
+                    self._model = load_model(self.model_filename)
+                    self.param_count = self._model.count_params()
+                    print('Successfully loaded', self.name)
+                except (ImportError, ValueError, OSError):
+                    print('Failed to download model')
 
     def color_preprocessing(self, x_train,x_test):
         x_train = x_train.astype('float32')
@@ -118,6 +117,7 @@ class NetworkInNetwork:
 
         # build network
         model = self.build_model()
+        model.summary()
 
         # Save the best model during each training checkpoint
         checkpoint = ModelCheckpoint(self.model_filename,

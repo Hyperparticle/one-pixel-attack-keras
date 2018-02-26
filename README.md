@@ -22,7 +22,9 @@ See below for some examples of successful attacks:
 
 ## Getting Started
 
-A dedicated GPU suitable for running with Keras is recommended to run the tutorial. Alternatively, you can [view the tutorial notebook on GitHub](one-pixel-attack.ipynb).
+Just want to read? [View the tutorial notebook on GitHub](one-pixel-attack.ipynb).
+
+To run the code in the tutorial, a dedicated GPU suitable for running with Keras (`tensorflow-gpu`) is recommended.
 
 1. Install the python packages in requirements.txt if you don't have them already.
 
@@ -43,6 +45,25 @@ cd ./one-pixel-attack-keras
 jupyter notebook ./one-pixel-attack.ipynb
 ```
 
+## Training and Testing
+
+To train a model, run `train.py`. The model will be checkpointed (saved) after each epoch to the `networks/models` directory.
+
+For example, to train a ResNet with 200 epochs and a batch size of 128:
+
+```bash
+python train.py --model resnet --epochs 200 --batch_size 128
+```
+
+The available models currently are:
+- `lecun_net`
+- `pure_cnn`
+- `net_in_net`
+- `resnet`
+- `densenet`
+- `wide_resnet`
+- `capsnet`
+
 ## Results
 
 Preliminary results after running several experiments:
@@ -61,17 +82,13 @@ The success rate is much lower than demonstrated in the paper, but that's mostly
 
 It appears that the capsule network CapsNet, while more resilient to the one pixel attack than all other CNNs, is still vulnerable.
 
-## Training and Testing
-
-TODO: need to implement a CLI!
-
 ## Milestones
 
 - [x] Cifar10 dataset
 - [x] Tutorial notebook
 - [x] Lecun Network, Network in Network, Residual Network, DenseNet models
 - [x] CapsNet (capsule network) model
-- [ ] Configurable command-line interface
+- [x] Configurable command-line interface
 - [ ] Efficient differential evolution implementation
 - [ ] MNIST dataset
 - [ ] ImageNet dataset

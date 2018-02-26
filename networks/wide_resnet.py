@@ -14,7 +14,7 @@ from networks.train_plot import PlotLearning
 from helper import download_model
 
 class WideResNet:
-    def __init__(self):
+    def __init__(self, epochs=200, batch_size=128, load_weights=True):
         self.name               = 'wide_resnet'
         self.model_filename     = 'networks/models/wide_resnet.h5'
         
@@ -23,28 +23,27 @@ class WideResNet:
         self.num_classes        = 10
         self.img_rows, self.img_cols = 32, 32
         self.img_channels       = 3
-        self.batch_size         = 128
-        self.epochs             = 200
+        self.batch_size         = batch_size
+        self.epochs             = epochs
         self.iterations         = 391
         self.weight_decay       = 0.0005
         self.log_filepath       = r'networks/models/wide_resnet/'
 
-        self.acc = 0.9534 # Precalculated result for cifar10
-
-        try:
-            self._model = load_model(self.model_filename)
-            self.param_count = self._model.count_params()
-            print('Successfully loaded', self.name)
-        except (ImportError, ValueError, OSError):
-            print('Failed to load', self.name)
-            print('Downloading model')
+        if load_weights:
             try:
-                download_model(self.name)
                 self._model = load_model(self.model_filename)
                 self.param_count = self._model.count_params()
                 print('Successfully loaded', self.name)
             except (ImportError, ValueError, OSError):
-                print('Failed to download model')
+                print('Failed to load', self.name)
+                print('Downloading model')
+                try:
+                    download_model(self.name)
+                    self._model = load_model(self.model_filename)
+                    self.param_count = self._model.count_params()
+                    print('Successfully loaded', self.name)
+                except (ImportError, ValueError, OSError):
+                    print('Failed to download model')
 
     def scheduler(self, epoch):
         if epoch <= 60:
@@ -125,6 +124,7 @@ class WideResNet:
         img_input = Input(shape=(self.img_rows,self.img_cols,self.img_channels))
         output = self.wide_residual_network(img_input,self.num_classes,self.depth,self.wide)
         resnet = Model(img_input, output)
+        resnet.summary()
         
         # set optimizer
         sgd = optimizers.SGD(lr=.1, momentum=0.9, nesterov=True)

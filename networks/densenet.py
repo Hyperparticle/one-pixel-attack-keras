@@ -18,7 +18,7 @@ from networks.train_plot import PlotLearning
 from helper import download_model
 
 class DenseNet:
-    def __init__(self):
+    def __init__(self, epochs=250, batch_size=64, load_weights=True):
         self.name               = 'densenet'
         self.model_filename     = 'networks/models/densenet.h5'
         self.growth_rate        = 12 
@@ -27,28 +27,27 @@ class DenseNet:
         self.num_classes        = 10
         self.img_rows, self.img_cols = 32, 32
         self.img_channels       = 3
-        self.batch_size         = 64 # 64 or 32 or other
-        self.epochs             = 250
+        self.batch_size         = batch_size
+        self.epochs             = epochs
         self.iterations         = 782
         self.weight_decay       = 0.0001
         self.log_filepath       = r'networks/models/densenet/'
 
-        self.acc = 0.9467 # Precalculated result for cifar10
-
-        try:
-            self._model = load_model(self.model_filename)
-            self.param_count = self._model.count_params()
-            print('Successfully loaded', self.name)
-        except (ImportError, ValueError, OSError):
-            print('Failed to load', self.name)
-            print('Downloading model')
+        if load_weights:
             try:
-                download_model(self.name)
                 self._model = load_model(self.model_filename)
                 self.param_count = self._model.count_params()
                 print('Successfully loaded', self.name)
             except (ImportError, ValueError, OSError):
-                print('Failed to download model')
+                print('Failed to load', self.name)
+                print('Downloading model')
+                try:
+                    download_model(self.name)
+                    self._model = load_model(self.model_filename)
+                    self.param_count = self._model.count_params()
+                    print('Successfully loaded', self.name)
+                except (ImportError, ValueError, OSError):
+                    print('Failed to download model')
 
     def color_preprocessing(self, x_train,x_test):
         x_train = x_train.astype('float32')
@@ -139,8 +138,9 @@ class DenseNet:
         img_input = Input(shape=(self.img_rows,self.img_cols,self.img_channels))
         output    = self.densenet(img_input,self.num_classes)
         model     = Model(img_input, output)
+        model.summary()
         
-        plot_model(model, show_shapes=True, to_file='model.png')
+        # plot_model(model, show_shapes=True, to_file='model.png')
 
         # set optimizer
         sgd = optimizers.SGD(lr=.1, momentum=0.9, nesterov=True)

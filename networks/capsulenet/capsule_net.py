@@ -126,14 +126,14 @@ def train(epochs=50,batch_size=64,mode=1):
     print(x_test.shape[0], 'test samples')
 
     model.summary()
-    log = callbacks.CSVLogger('results/capsule-cifar-'+str(num_classes)+'-log.csv')
-    tb = callbacks.TensorBoard(log_dir='results/tensorboard-capsule-cifar-'+str(num_classes)+'-logs',
+    log = callbacks.CSVLogger('networks/models/results/capsule-cifar-'+str(num_classes)+'-log.csv')
+    tb = callbacks.TensorBoard(log_dir='networks/models/results/tensorboard-capsule-cifar-'+str(num_classes)+'-logs',
                                batch_size=batch_size, histogram_freq=True)
-    checkpoint = callbacks.ModelCheckpoint('capsnet.h5',
+    checkpoint = callbacks.ModelCheckpoint('networks/models/capsnet.h5',
                                            save_best_only=True, verbose=1)
     lr_decay = callbacks.LearningRateScheduler(schedule=lambda epoch: 0.001 * np.exp(-epoch / 10.))
 
-    plot_model(model, to_file='models/capsule-cifar-'+str(num_classes)+'.png', show_shapes=True)
+    # plot_model(model, to_file='models/capsule-cifar-'+str(num_classes)+'.png', show_shapes=True)
 
     model.compile(optimizer=optimizers.Adam(lr=0.001),
                   loss=[margin_loss, 'mse'],
