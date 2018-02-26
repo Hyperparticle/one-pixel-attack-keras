@@ -26,17 +26,17 @@ Just want to read? [View the tutorial notebook on GitHub](one-pixel-attack.ipynb
 
 To run the code in the tutorial, a dedicated GPU suitable for running with Keras (`tensorflow-gpu`) is recommended. Python 3.5+ required.
 
-1. Install the python packages in requirements.txt if you don't have them already.
-
-```bash
-pip install -r ./requirements.txt
-```
-
-2. Clone the repository.
+1. Clone the repository.
 
 ```bash
 git clone https://github.com/Hyperparticle/one-pixel-attack-keras
 cd ./one-pixel-attack-keras
+```
+
+2. Install the python packages in requirements.txt if you don't have them already.
+
+```bash
+pip install -r ./requirements.txt
 ```
 
 3. Run the iPython tutorial notebook with Jupyter.
