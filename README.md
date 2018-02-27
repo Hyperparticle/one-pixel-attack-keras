@@ -55,14 +55,20 @@ For example, to train a ResNet with 200 epochs and a batch size of 128:
 python train.py --model resnet --epochs 200 --batch_size 128
 ```
 
+To perform  attack, run `attack.py`. By default this will run all models with default parameters. To specify the types of models to test, use `--model`.
+
+```bash
+python attack.py --model densenet capsnet
+```
+
 The available models currently are:
-- `lecun_net`
-- `pure_cnn`
-- `net_in_net`
-- `resnet`
-- `densenet`
-- `wide_resnet`
-- `capsnet`
+- `lecun_net` - [LeNet, first CNN model](http://yann.lecun.com/exdb/lenet/)
+- `pure_cnn` - A NN with just convolutional layers
+- `net_in_net` - [Network in Network](https://arxiv.org/abs/1312.4400)
+- `resnet` - [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
+- `densenet` - [Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
+- `wide_resnet` - [Wide Residual Networks](https://arxiv.org/abs/1605.07146)
+- `capsnet` - [Dynamic Routing Between Capsules](https://arxiv.org/abs/1710.09829)
 
 ## Results
 
