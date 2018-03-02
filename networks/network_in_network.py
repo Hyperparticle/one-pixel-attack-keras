@@ -34,14 +34,14 @@ class NetworkInNetwork:
                 print('Successfully loaded', self.name)
             except (ImportError, ValueError, OSError):
                 print('Failed to load', self.name)
-                print('Downloading model')
-                try:
-                    download_model(self.name)
-                    self._model = load_model(self.model_filename)
-                    self.param_count = self._model.count_params()
-                    print('Successfully loaded', self.name)
-                except (ImportError, ValueError, OSError):
-                    print('Failed to download model')
+                # print('Downloading model')
+                # try:
+                #     download_model(self.name)
+                #     self._model = load_model(self.model_filename)
+                #     self.param_count = self._model.count_params()
+                #     print('Successfully loaded', self.name)
+                # except (ImportError, ValueError, OSError):
+                #     print('Failed to download model')
 
     def color_preprocessing(self, x_train,x_test):
         x_train = x_train.astype('float32')
