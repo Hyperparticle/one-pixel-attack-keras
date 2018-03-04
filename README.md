@@ -95,6 +95,6 @@ It appears that the capsule network CapsNet, while more resilient to the one pix
 - [x] Lecun Network, Network in Network, Residual Network, DenseNet models
 - [x] CapsNet (capsule network) model
 - [x] Configurable command-line interface
-- [ ] Efficient differential evolution implementation
+- [x] Efficient differential evolution implementation
 - [ ] MNIST dataset
 - [ ] ImageNet dataset
