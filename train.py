@@ -22,7 +22,7 @@ models = {
 }
 
 parser = argparse.ArgumentParser(description="Train models on Cifar10")
-parser.add_argument('--model', choices=models.keys(), required=True)
+parser.add_argument('--model', choices=models.keys(), required=True, help='Specify a model by name to train.')
 
 parser.add_argument('--epochs', default=None, type=int)
 parser.add_argument('--batch_size', default=None, type=int)

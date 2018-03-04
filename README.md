@@ -63,7 +63,7 @@ python attack.py --model densenet capsnet
 
 The available models currently are:
 - `lecun_net` - [LeNet, first CNN model](http://yann.lecun.com/exdb/lenet/)
-- `pure_cnn` - A NN with just convolutional layers
+- `pure_cnn` - [A NN with just convolutional layers](https://en.wikipedia.org/wiki/Convolutional_neural_network)
 - `net_in_net` - [Network in Network](https://arxiv.org/abs/1312.4400)
 - `resnet` - [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
 - `densenet` - [Densely Connected Convolutional Networks](https://arxiv.org/abs/1608.06993)
@@ -72,19 +72,41 @@ The available models currently are:
 
 ## Results
 
-Preliminary results after running several experiments:
+Preliminary results after running several experiments on various models. Each experiment generates 100 adversarial images and calculates the attack success rate, i.e., the ratio of images that successfully caused the model to misclassify an image over the total number of images. For a given model, multiple experiments are run based on the number of pixels that may be modified in an image (1,3, or 5). The differential algorithm was run with a population size of 400 and a max iteration count of 75.
 
-**Untargeted attack on 1,2,3 pixel perturbations of 100 samples each**
+### Untargeted Attack
 
-| model              | parameters | test accuracy | attack success rate  |
-| ------------------ | ---------- | ------------- | -------------------- |
-| Lecun Net          | 62K        | 74.9%         | 34.4%                |
-| Pure CNN           | 1.4M       | 88.7%         | 26.3%                |
-| Network in Network | 970K       | 90.7%         | 30.7%                |
-| ResNet             | 470K       | 92.3%         | 23.3%                |
-| CapsNet            | 12M        | 65.7%         | 21.0%                |
+**Untargeted attack on 1,3,5 pixel perturbations (100 samples)**
 
-The success rate is much lower than demonstrated in the paper, but that's mostly due to an inefficient differential evolution implementation. This should be fixed soon.
+| model              | parameters | test accuracy | pixels | attack success rate  |
+| ------------------ | ---------- | ------------- | ------ | -------------------- |
+| Lecun Net          | 62K        | 74.9%         | 1      | 63%                  |
+|                    |            |               | 3      | 92%                  |
+|                    |            |               | 5      | 93%                  |
+|                    |            |               |        |                      |
+| Pure CNN           | 1.4M       | 88.8%         | 1      | 13%                  |
+|                    |            |               | 3      | 58%                  |
+|                    |            |               | 5      | 63%                  |
+|                    |            |               |        |                      |
+| Network in Network | 970K       | 90.8%         | 1      | 34%                  |
+|                    |            |               | 3      | 73%                  |
+|                    |            |               | 5      | 73%                  |
+|                    |            |               |        |                      |
+| ResNet             | 470K       | 92.3%         | 1      | 34%                  |
+|                    |            |               | 3      | 79%                  |
+|                    |            |               | 5      | 79%                  |
+|                    |            |               |        |                      |
+| DenseNet           | 850K       | 94.7%         | 1      | 31%                  |
+|                    |            |               | 3      | 71%                  |
+|                    |            |               | 5      | 69%                  |
+|                    |            |               |        |                      |
+| Wide ResNet        | 11M        | 95.3%         | 1      | 19%                  |
+|                    |            |               | 3      | 58%                  |
+|                    |            |               | 5      | 65%                  |
+|                    |            |               |        |                      |
+| CapsNet            | 12M        | 79.8%         | 1      | 19%                  |
+|                    |            |               | 3      | 39%                  |
+|                    |            |               | 5      | 36%                  |
 
 It appears that the capsule network CapsNet, while more resilient to the one pixel attack than all other CNNs, is still vulnerable.
 
@@ -98,3 +120,4 @@ It appears that the capsule network CapsNet, while more resilient to the one pix
 - [x] Efficient differential evolution implementation
 - [ ] MNIST dataset
 - [ ] ImageNet dataset
+- [ ] Graph plot of all results
