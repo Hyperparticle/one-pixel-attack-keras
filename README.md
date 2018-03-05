@@ -74,39 +74,37 @@ The available models currently are:
 
 Preliminary results after running several experiments on various models. Each experiment generates 100 adversarial images and calculates the attack success rate, i.e., the ratio of images that successfully caused the model to misclassify an image over the total number of images. For a given model, multiple experiments are run based on the number of pixels that may be modified in an image (1,3, or 5). The differential algorithm was run with a population size of 400 and a max iteration count of 75.
 
-### Untargeted Attack
+**Attack on 1,3,5 pixel perturbations (100 samples)**
 
-**Untargeted attack on 1,3,5 pixel perturbations (100 samples)**
-
-| model              | parameters | test accuracy | pixels | attack success rate  |
-| ------------------ | ---------- | ------------- | ------ | -------------------- |
-| Lecun Net          | 62K        | 74.9%         | 1      | 63%                  |
-|                    |            |               | 3      | 92%                  |
-|                    |            |               | 5      | 93%                  |
-|                    |            |               |        |                      |
-| Pure CNN           | 1.4M       | 88.8%         | 1      | 13%                  |
-|                    |            |               | 3      | 58%                  |
-|                    |            |               | 5      | 63%                  |
-|                    |            |               |        |                      |
-| Network in Network | 970K       | 90.8%         | 1      | 34%                  |
-|                    |            |               | 3      | 73%                  |
-|                    |            |               | 5      | 73%                  |
-|                    |            |               |        |                      |
-| ResNet             | 470K       | 92.3%         | 1      | 34%                  |
-|                    |            |               | 3      | 79%                  |
-|                    |            |               | 5      | 79%                  |
-|                    |            |               |        |                      |
-| DenseNet           | 850K       | 94.7%         | 1      | 31%                  |
-|                    |            |               | 3      | 71%                  |
-|                    |            |               | 5      | 69%                  |
-|                    |            |               |        |                      |
-| Wide ResNet        | 11M        | 95.3%         | 1      | 19%                  |
-|                    |            |               | 3      | 58%                  |
-|                    |            |               | 5      | 65%                  |
-|                    |            |               |        |                      |
-| CapsNet            | 12M        | 79.8%         | 1      | 19%                  |
-|                    |            |               | 3      | 39%                  |
-|                    |            |               | 5      | 36%                  |
+| model              | parameters | test accuracy | pixels | attack success (untargeted)   | attack success (targeted) |
+| ------------------ | ---------- | ------------- | ------ | ----------------------------- | ------------------------- | 
+| Lecun Net          | 62K        | 74.9%         | 1      | 63.0%                         | 34.4%                     |
+|                    |            |               | 3      | 92.0%                         | 64.4%                     |
+|                    |            |               | 5      | 93.0%                         | 64.4%                     |
+|                    |            |               |        |                               |                           |
+| Pure CNN           | 1.4M       | 88.8%         | 1      | 13.0%                         | 6.67%                     |
+|                    |            |               | 3      | 58.0%                         | 13.3%                     |
+|                    |            |               | 5      | 63.0%                         | 18.9%                     |
+|                    |            |               |        |                               |                           |
+| Network in Network | 970K       | 90.8%         | 1      | 34.0%                         | 10.0%                     |
+|                    |            |               | 3      | 73.0%                         | 24.4%                     |
+|                    |            |               | 5      | 73.0%                         | 31.1%                     |
+|                    |            |               |        |                               |                           |
+| ResNet             | 470K       | 92.3%         | 1      | 34.0%                         | 14.4%                     |
+|                    |            |               | 3      | 79.0%                         | 21.1%                     |
+|                    |            |               | 5      | 79.0%                         | 22.2%                     |
+|                    |            |               |        |                               |                           |
+| DenseNet           | 850K       | 94.7%         | 1      | 31.0%                         | 4.44%                     |
+|                    |            |               | 3      | 71.0%                         | 23.3%                     |
+|                    |            |               | 5      | 69.0%                         | 28.9%                     |
+|                    |            |               |        |                               |                           |
+| Wide ResNet        | 11M        | 95.3%         | 1      | 19.0%                         | 1.11%                     |
+|                    |            |               | 3      | 58.0%                         | 18.9%                     |
+|                    |            |               | 5      | 65.0%                         | 22.2%                     |
+|                    |            |               |        |                               |                           |
+| CapsNet            | 12M        | 79.8%         | 1      | 19.0%                         | 0.00%                     |
+|                    |            |               | 3      | 39.0%                         | 4.44%                     |
+|                    |            |               | 5      | 36.0%                         | 4.44%                     |
 
 It appears that the capsule network CapsNet, while more resilient to the one pixel attack than all other CNNs, is still vulnerable.
 
@@ -120,4 +118,4 @@ It appears that the capsule network CapsNet, while more resilient to the one pix
 - [x] Efficient differential evolution implementation
 - [ ] MNIST dataset
 - [ ] ImageNet dataset
-- [ ] Graph plot of all results
+- [ ] Plot of all results
