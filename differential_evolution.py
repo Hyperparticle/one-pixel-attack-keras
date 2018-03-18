@@ -1,9 +1,10 @@
 """
-A slight modification to Scipy's implementation of differential evolution. To speed up predictions, the entire parameters array is passed to `self.func`, where a neural network model can batch its computations.
+A slight modification to Scipy's implementation of differential evolution. To speed up predictions, the entire parameters array is passed to `self.func`, where a neural network model can batch its computations and execute in parallel. Search for `CHANGES` to find all code changes.
 
-Taken from
+Dan Kondratyuk 2018
+
+Original code adapted from
 https://github.com/scipy/scipy/blob/70e61dee181de23fdd8d893eaa9491100e2218d7/scipy/optimize/_differentialevolution.py
-
 ----------
 
 differential_evolution: The differential evolution global optimization algorithm
@@ -638,7 +639,7 @@ class DifferentialEvolutionSolver(object):
         ##############
         itersize = max(0, min(len(self.population), self.maxfun - self._nfev + 1))
         candidates = self.population[:itersize]
-        parameters = np.array([self._scale_parameters(c) for c in candidates]) # TODO: vectorize
+        parameters = np.array([self._scale_parameters(c) for c in candidates]) # TODO: can be vectorized
         energies = self.func(parameters, *self.args)
         self.population_energies = energies
         self._nfev += itersize
@@ -693,7 +694,7 @@ class DifferentialEvolutionSolver(object):
         ##############
 
         itersize = max(0, min(self.num_population_members, self.maxfun - self._nfev + 1))
-        trials = np.array([self._mutate(c) for c in range(itersize)]) # TODO: vectorize
+        trials = np.array([self._mutate(c) for c in range(itersize)]) # TODO: can be vectorized
         for trial in trials: self._ensure_constraint(trial)
         parameters = np.array([self._scale_parameters(trial) for trial in trials])
         energies = self.func(parameters, *self.args)
