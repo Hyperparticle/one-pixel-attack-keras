@@ -12,7 +12,6 @@ from keras.preprocessing.image import ImageDataGenerator
 from keras.datasets import cifar10
 
 from networks.train_plot import PlotLearning
-from helper import download_model
 
 # A pure CNN model from https://arxiv.org/pdf/1412.6806.pdf
 # Code taken from https://github.com/09rohanchopra/cifar10
@@ -34,15 +33,6 @@ class PureCnn:
                 print('Successfully loaded', self.name)
             except (ImportError, ValueError, OSError):
                 print('Failed to load', self.name)
-                # print('Downloading model')
-                # try:
-                #     download_model(self.name)
-                #     self._model = load_model(self.model_filename)
-                #     self.param_count = self._model.count_params()
-                #     print('Successfully loaded', self.name)
-                # except (ImportError, ValueError, OSError):
-                #     print('Failed to download model')
-
         
     def color_preprocessing(self, x_train, x_test):
         x_train = x_train.astype('float32')

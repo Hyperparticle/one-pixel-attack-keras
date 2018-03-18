@@ -2,6 +2,7 @@ from matplotlib import pyplot as plt
 from IPython.display import clear_output
 import keras
 
+# Live loss plot as the network trains
 # https://gist.github.com/stared/dfb4dfaf6d9a8501cd1cc8b8cb806d2e
 class PlotLearning(keras.callbacks.Callback):
     def __init__(self, clear_on_begin=False):

@@ -2,7 +2,6 @@ from keras.utils import to_categorical
 import numpy as np
 
 from networks.capsulenet.capsule_net import CapsNetv1, train as train_net
-from helper import download_model
 
 # Capsule Network taken from https://github.com/theblackcat102/dynamic-routing-capsule-cifar
 class CapsNet:
@@ -26,14 +25,6 @@ class CapsNet:
                 print('Successfully loaded', self.name)
             except (ImportError, ValueError, OSError):
                 print('Failed to load', self.name)
-                # print('Downloading model')
-                # try:
-                #     download_model(self.name)
-                #     self._model.load_weights(self.model_filename)
-                #     self.param_count = self._model.count_params()
-                #     print('Successfully loaded', self.name)
-                # except (ImportError, ValueError, OSError):
-                #     print('Failed to download model')
 
     def train(self):
         self._model = train_net()
