@@ -31,8 +31,6 @@ model_defs = {
     'capsnet': CapsNet
 }
 
-
-
 def predict_classes(xs, img, target_class, model, minimize=True):
     # Perturb the image with the given pixel(s) x and get the prediction of the model
     imgs_perturbed = perturb_image(xs, img)
@@ -120,7 +118,7 @@ def attack_all(models, samples=500, pixels=(1,3,5), targeted=False,
         helper.checkpoint(results, targeted)
     return results
 
-parser = argparse.ArgumentParser(description="Attack models on Cifar10")
+parser = argparse.ArgumentParser(description='Attack models on Cifar10')
 parser.add_argument('--model', nargs='+', choices=model_defs.keys(), default=model_defs.keys(), help='Specify one or more models by name to evaluate.')
 parser.add_argument('--pixels', nargs='+', default=(1,3,5), type=int, help='The number of pixels that can be perturbed.')
 parser.add_argument('--maxiter', default=75, type=int, help='The maximum number of iterations in the differential evolution algorithm before giving up and failing the attack.')
