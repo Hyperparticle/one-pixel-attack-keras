@@ -11,28 +11,30 @@ from networks.densenet import DenseNet
 from networks.wide_resnet import WideResNet
 from networks.capsnet import CapsNet
 
-models = { 
-    'lecun_net': LecunNet,
-    'pure_cnn': PureCnn,
-    'net_in_net': NetworkInNetwork,
-    'resnet': ResNet,
-    'densenet': DenseNet,
-    'wide_resnet': WideResNet,
-    'capsnet': CapsNet
-}
 
-parser = argparse.ArgumentParser(description='Train models on Cifar10')
-parser.add_argument('--model', choices=models.keys(), required=True, help='Specify a model by name to train.')
+if __name__ == '__main__':
+    models = { 
+        'lecun_net': LecunNet,
+        'pure_cnn': PureCnn,
+        'net_in_net': NetworkInNetwork,
+        'resnet': ResNet,
+        'densenet': DenseNet,
+        'wide_resnet': WideResNet,
+        'capsnet': CapsNet
+    }
 
-parser.add_argument('--epochs', default=None, type=int)
-parser.add_argument('--batch_size', default=None, type=int)
+    parser = argparse.ArgumentParser(description='Train models on Cifar10')
+    parser.add_argument('--model', choices=models.keys(), required=True, help='Specify a model by name to train.')
 
-args = parser.parse_args()
-model_name = args.model
+    parser.add_argument('--epochs', default=None, type=int)
+    parser.add_argument('--batch_size', default=None, type=int)
 
-args = {k:v for k,v in vars(args).items() if v != None}
-del args['model']
+    args = parser.parse_args()
+    model_name = args.model
 
-model = models[model_name](**args, load_weights=False)
+    args = {k:v for k,v in vars(args).items() if v != None}
+    del args['model']
 
-model.train()
+    model = models[model_name](**args, load_weights=False)
+
+    model.train()

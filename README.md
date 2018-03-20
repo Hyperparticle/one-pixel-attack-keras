@@ -20,11 +20,11 @@ First, generate several adversarial samples that modify a random pixel and run t
 
 See below for some examples of successful attacks:
 
-[![Examples](images/pred.png "thicc indeed")](one-pixel-attack.ipynb)
+[![Examples](images/pred.png "thicc indeed")](1_one-pixel-attack-cifar10.ipynb)
 
 ## Getting Started
 
-Just want to read? [View the tutorial notebook on GitHub](one-pixel-attack.ipynb).
+Just want to read? [View the first tutorial notebook on GitHub](1_one-pixel-attack-cifar10.ipynb).
 
 To run the code in the tutorial, a dedicated GPU suitable for running with Keras (`tensorflow-gpu`) is recommended. Python 3.5+ required.
 

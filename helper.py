@@ -36,7 +36,7 @@ def perturb_image(xs, img):
 
 def plot_image(image, label_true=None, class_names=None, label_pred=None):
     plt.grid()
-    plt.imshow(image)
+    plt.imshow(image.astype(np.uint8))
 
     # Show true and predicted classes
     if label_true is not None and class_names is not None:
@@ -208,14 +208,3 @@ def download_from_url(url, dst):
     with open(dst, 'wb') as f:
         for data in tqdm(r.iter_content(), unit='B', unit_scale=True):
             f.write(data)
-        
-def download_model(model_name):
-    print('Downloading', model_name)
-    
-    url = 'https://github.com/Hyperparticle/keras-models/raw/master/one-pixel-attack-keras/'
-    path = 'networks/models/'
-    
-    full_url = url + model_name + '.h5'
-    file_name = path + model_name + '.h5'
-
-    download_from_url(full_url, file_name)
