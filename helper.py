@@ -211,3 +211,14 @@ def download_from_url(url, dst):
     with open(dst, 'wb') as f:
         for data in tqdm(r.iter_content(), unit='B', unit_scale=True):
             f.write(data)
+
+# def load_imagenet():
+#     with open('data/imagenet_class_index.json', 'r') as f:
+#         class_names = json.load(f)
+#     class_names = pd.DataFrame([[i,wid,name] for i,(wid,name) in class_names.items()], columns=['id', 'wid', 'text'])
+
+#     wid_to_id = {wid:int(i) for i,wid in class_names[['id', 'wid']].as_matrix()}
+
+#     imagenet_urls = pd.read_csv('data/imagenet_urls.txt', delimiter='\t', names=['label', 'url'])
+#     imagenet_urls['label'], imagenet_urls['id'] = zip(*imagenet_urls.label.apply(lambda x: x.split('_')))
+#     imagenet_urls.label = imagenet_urls.label.apply(lambda wid: wid_to_id[wid])
