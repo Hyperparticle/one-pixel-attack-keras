@@ -11,17 +11,17 @@ from keras.regularizers import l2
 from networks.train_plot import PlotLearning
 
 # Code taken from https://github.com/BIGBALLON/cifar-10-cnn
-class LecunNet:
+class LeNet:
     def __init__(self, epochs=200, batch_size=128, load_weights=True):
-        self.name               = 'lecun_net'
-        self.model_filename     = 'networks/models/lecun_net.h5'
+        self.name               = 'lenet'
+        self.model_filename     = 'networks/models/lenet.h5'
         self.num_classes        = 10
         self.input_shape        = 32, 32, 3
         self.batch_size         = batch_size
         self.epochs             = epochs
         self.iterations         = 391
         self.weight_decay       = 0.0001
-        self.log_filepath       = r'networks/models/lecun_net/'
+        self.log_filepath       = r'networks/models/lenet/'
 
         if load_weights:
             try:

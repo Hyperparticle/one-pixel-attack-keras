@@ -3,7 +3,7 @@
 import os
 import argparse
 
-from networks.lecun_net import LecunNet
+from networks.lenet import LeNet
 from networks.pure_cnn import PureCnn
 from networks.network_in_network import NetworkInNetwork
 from networks.resnet import ResNet
@@ -14,7 +14,7 @@ from networks.capsnet import CapsNet
 
 if __name__ == '__main__':
     models = { 
-        'lecun_net': LecunNet,
+        'lenet': LeNet,
         'pure_cnn': PureCnn,
         'net_in_net': NetworkInNetwork,
         'resnet': ResNet,

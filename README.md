@@ -64,7 +64,7 @@ python attack.py --model densenet capsnet
 ```
 
 The available models currently are:
-- `lecun_net` - [LeNet, first CNN model](http://yann.lecun.com/exdb/lenet/)
+- `lenet` - [LeNet, first CNN model](http://yann.lecun.com/exdb/lenet/)
 - `pure_cnn` - [A NN with just convolutional layers](https://en.wikipedia.org/wiki/Convolutional_neural_network)
 - `net_in_net` - [Network in Network](https://arxiv.org/abs/1312.4400)
 - `resnet` - [Deep Residual Learning for Image Recognition](https://arxiv.org/abs/1512.03385)
@@ -80,7 +80,7 @@ Preliminary results after running several experiments on various models. Each ex
 
 | model              | parameters | test accuracy | pixels | attack success (untargeted)   | attack success (targeted) |
 | ------------------ | ---------- | ------------- | ------ | ----------------------------- | ------------------------- | 
-| Lecun Net          | 62K        | 74.9%         | 1      | 63.0%                         | 34.4%                     |
+| LeNet              | 62K        | 74.9%         | 1      | 63.0%                         | 34.4%                     |
 |                    |            |               | 3      | 92.0%                         | 64.4%                     |
 |                    |            |               | 5      | 93.0%                         | 64.4%                     |
 |                    |            |               |        |                               |                           |
@@ -114,7 +114,7 @@ It appears that the capsule network CapsNet, while more resilient to the one pix
 
 - [x] Cifar10 dataset
 - [x] Tutorial notebook
-- [x] Lecun Network, Network in Network, Residual Network, DenseNet models
+- [x] LeNet, Network in Network, Residual Network, DenseNet models
 - [x] CapsNet (capsule network) model
 - [x] Configurable command-line interface
 - [x] Efficient differential evolution implementation
