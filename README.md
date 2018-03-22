@@ -24,7 +24,7 @@ See below for some examples of successful attacks:
 
 ## Getting Started
 
-Just want to read? [View the first tutorial notebook on GitHub](1_one-pixel-attack-cifar10.ipynb).
+Just want to read? [View the first tutorial notebook online](https://nbviewer.jupyter.org/github/Hyperparticle/one-pixel-attack-keras/blob/master/1_one-pixel-attack-cifar10.ipynb).
 
 To run the code in the tutorial, a dedicated GPU suitable for running with Keras (`tensorflow-gpu`) is recommended. Python 3.5+ required.
 
