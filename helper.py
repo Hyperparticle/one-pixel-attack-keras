@@ -35,6 +35,9 @@ def perturb_image(xs, img):
     return imgs
 
 def plot_image(image, label_true=None, class_names=None, label_pred=None):
+    if image.ndim == 4 and image.shape[0] == 1:
+        image = image[0]
+
     plt.grid()
     plt.imshow(image.astype(np.uint8))
 
@@ -181,7 +184,7 @@ def evaluate_models(models, x_test, y_test):
         accuracy = len(correct) / len(x_test)
         
         correct_imgs += correct
-        network_stats += [[model.name, accuracy, model.param_count]]
+        network_stats += [[model.name, accuracy, model.count_params()]]
     return network_stats, correct_imgs
 
 def load_results():

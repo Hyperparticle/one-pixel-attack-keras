@@ -21,11 +21,12 @@ from differential_evolution import differential_evolution
 import helper
 
 class PixelAttacker:
-    def __init__(self, models, data, class_names):
+    def __init__(self, models, data, class_names, dimensions=(32, 32)):
         # Load data and model
         self.models = models
         self.x_test, self.y_test = data
         self.class_names = class_names
+        self.dimensions = dimensions
 
         network_stats, correct_imgs = helper.evaluate_models(self.models, self.x_test, self.y_test)
         self.correct_imgs = pd.DataFrame(correct_imgs, columns=['name', 'img', 'label', 'confidence', 'pred'])
@@ -54,14 +55,14 @@ class PixelAttacker:
             return True
 
     def attack(self, img, model, target=None, pixel_count=1, 
-            maxiter=75, popsize=400, verbose=False, dimensions=(32, 32), plot=False):
+            maxiter=75, popsize=400, verbose=False, plot=False):
         # Change the target class based on whether this is a targeted attack or not
         targeted_attack = target is not None
         target_class = target if targeted_attack else self.y_test[img,0]
         
         # Define bounds for a flat vector of x,y,r,g,b values
         # For more pixels, repeat this layout
-        dim_x, dim_y = dimensions
+        dim_x, dim_y = self.dimensions
         bounds = [(0,dim_x), (0,dim_y), (0,256), (0,256), (0,256)] * pixel_count
         
         # Population multiplier, in terms of the size of the perturbation vector x
@@ -89,7 +90,7 @@ class PixelAttacker:
 
         # Show the best attempt at a solution (successful or not)
         if plot:
-            helper.plot_image(attack_image, actual_class, class_names, predicted_class)
+            helper.plot_image(attack_image, actual_class, self.class_names, predicted_class)
 
         return [model.name, pixel_count, img, actual_class, predicted_class, success, cdiff, prior_probs, predicted_probs, attack_result.x]
 

@@ -29,10 +29,12 @@ class NetworkInNetwork:
         if load_weights:
             try:
                 self._model = load_model(self.model_filename)
-                self.param_count = self._model.count_params()
                 print('Successfully loaded', self.name)
             except (ImportError, ValueError, OSError):
                 print('Failed to load', self.name)
+    
+    def count_params(self):
+        return self._model.count_params()
 
     def color_preprocessing(self, x_train,x_test):
         x_train = x_train.astype('float32')

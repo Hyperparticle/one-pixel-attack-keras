@@ -105,3 +105,4 @@ ENV/
 networks/models
 !networks/models/lecun_net.h5
 !networks/models/resnet.h5
+data/*.jpg
