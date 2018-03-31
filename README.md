@@ -12,9 +12,11 @@ The following project is a Keras reimplementation and tutorial of ["One pixel at
 
 For this attack, we will use the [Cifar10 dataset](https://www.cs.toronto.edu/~kriz/cifar.html). The task of the dataset is to correctly classify a 32x32 pixel image in 1 of 10 categories (e.g., bird, deer, truck). The black-box attack requires only the probability labels (the probability value for each category) that get outputted by the neural network. We generate adversarial images by selecting a pixel and modifying it to a certain color.
 
-By using an Evolutionary Algorithm called Differential Evolution (DE), we can iteratively generate adversarial images to try to minimize the confidence (probability) of the neural network's classification.
+By using an Evolutionary Algorithm called [Differential Evolution](https://en.wikipedia.org/wiki/Differential_evolution) (DE), we can iteratively generate adversarial images to try to minimize the confidence (probability) of the neural network's classification.
 
 [![Ackley GIF](images/Ackley.gif)](https://en.wikipedia.org/wiki/Differential_evolution)
+
+<sub><sup>Credit: [Pablo R. Mier's Blog](https://pablormier.github.io/2017/09/05/a-tutorial-on-differential-evolution-with-python/)</sup></sub>
 
 First, generate several adversarial samples that modify a random pixel and run the images through the neural network. Next, combine the previous pixels' positions and colors together, generate several more adversarial samples from them, and run the new images through the neural network. If there were pixels that lowered the confidence of the network from the last step, replace them as the current best known solutions. Repeat these steps for a few iterations; then on the last step return the adversarial image that reduced the network's confidence the most. If successful, the confidence would be reduced so much that a new (incorrect) category now has the highest classification confidence.
 
