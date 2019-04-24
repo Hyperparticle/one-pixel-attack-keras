@@ -157,8 +157,8 @@ class DenseNet:
         model.fit_generator(datagen.flow(x_train, y_train,batch_size=self.batch_size), steps_per_epoch=self.iterations, epochs=self.epochs, callbacks=cbks,validation_data=(x_test, y_test))
         model.save(self.model_filename)
 
-        self.param_count = self._model.count_params()
         self._model = model
+        self.param_count = self._model.count_params()
 
     def color_process(self, imgs):
         if imgs.ndim < 4:

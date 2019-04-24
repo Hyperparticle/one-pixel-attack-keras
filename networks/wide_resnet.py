@@ -147,8 +147,8 @@ class WideResNet:
                             validation_data=(x_test, y_test))
         resnet.save(self.model_filename)
 
-        self.param_count = self._model.count_params()
         self._model = resnet
+        self.param_count = self._model.count_params()
 
     def color_process(self, imgs):
         if imgs.ndim < 4:
