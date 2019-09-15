@@ -11,9 +11,8 @@ from networks.densenet import DenseNet
 from networks.wide_resnet import WideResNet
 from networks.capsnet import CapsNet
 
-
 if __name__ == '__main__':
-    models = { 
+    models = {
         'lenet': LeNet,
         'pure_cnn': PureCnn,
         'net_in_net': NetworkInNetwork,
@@ -32,7 +31,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     model_name = args.model
 
-    args = {k:v for k,v in vars(args).items() if v != None}
+    args = {k: v for k, v in vars(args).items() if v != None}
     del args['model']
 
     model = models[model_name](**args, load_weights=False)
