@@ -112,7 +112,7 @@ class PixelAttacker:
 
                     for target in targets:
                         if targeted:
-                            print('Attacking with target', class_names[target])
+                            print('Attacking with target', self.class_names[target])
                             if target == self.y_test[img, 0]:
                                 continue
                         result = self.attack(img, model, target, pixel_count,
