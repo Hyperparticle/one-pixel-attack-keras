@@ -1,6 +1,6 @@
 # One Pixel Attack
 
-![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hyperparticle/one-pixel-attack-keras/blob/master/1_one-pixel-attack-cifar10.ipynb) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md) [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hyperparticle/one-pixel-attack-keras/blob/master/1_one-pixel-attack-cifar10.ipynb) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md) [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 [![Who would win?](images/who-would-win.jpg "one thicc boi that's who")](https://www.reddit.com/r/ProgrammerHumor/comments/79g0m6/one_pixel_attack_for_fooling_deep_neural_networks/?ref=share&ref_source=link)
 
