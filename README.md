@@ -1,6 +1,6 @@
 # One Pixel Attack
 
-[![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md) [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE) [![Google Colab](https://img.shields.io/badge/run-on%20Google%20Colab-yellow.svg)](https://colab.research.google.com/drive/1Zq1kGP9C7i-70-SXyuEEaqYngtyQZMn7) [![Gitter chat](https://img.shields.io/badge/chat-on%20gitter-blue.svg)](https://gitter.im/one-pixel-attack-keras/Lobby?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/hyperparticle/one-pixel-attack-keras/blob/master/1_one-pixel-attack-cifar10.ipynb) [![Contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg)](CONTRIBUTING.md) [![MIT License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 [![Who would win?](images/who-would-win.jpg "one thicc boi that's who")](https://www.reddit.com/r/ProgrammerHumor/comments/79g0m6/one_pixel_attack_for_fooling_deep_neural_networks/?ref=share&ref_source=link)
 
@@ -26,7 +26,7 @@ See below for some examples of successful attacks:
 
 ## Getting Started
 
-Need a GPU or just want to read? [View the first tutorial notebook with Google Colab](https://colab.research.google.com/drive/1Zq1kGP9C7i-70-SXyuEEaqYngtyQZMn7).
+Need a GPU or just want to read? [View the first tutorial notebook with Google Colab](https://colab.research.google.com/github/hyperparticle/one-pixel-attack-keras/blob/master/1_one-pixel-attack-cifar10.ipynb).
 
 To run the code in the tutorial locally, a dedicated GPU suitable for running with Keras (`tensorflow-gpu`) is recommended. Python 3.5+ required.
 
