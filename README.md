@@ -10,7 +10,7 @@ The following project is a Keras reimplementation and tutorial of ["One pixel at
 
 ## How It Works
 
-For this attack, we will use the [Cifar10 dataset](https://www.cs.toronto.edu/~kriz/cifar.html). The task of the dataset is to correctly classify a 32x32 pixel image in 1 of 10 categories (e.g., bird, deer, truck). The black-box attack requires only the probability labels (the probability value for each category) that get outputted by the neural network. We generate adversarial images by selecting a pixel and modifying it to a certain color.
+For this attack, we will use the [CIFAR-10 dataset](https://www.cs.toronto.edu/~kriz/cifar.html). The task of the dataset is to correctly classify a 32x32 pixel image in 1 of 10 categories (e.g., bird, deer, truck). The black-box attack requires only the probability labels (the probability value for each category) that get outputted by the neural network. We generate adversarial images by selecting a pixel and modifying it to a certain color.
 
 By using an Evolutionary Algorithm called [Differential Evolution](https://en.wikipedia.org/wiki/Differential_evolution) (DE), we can iteratively generate adversarial images to try to minimize the confidence (probability) of the neural network's classification.
 
@@ -59,13 +59,14 @@ For example, to train a ResNet with 200 epochs and a batch size of 128:
 python train.py --model resnet --epochs 200 --batch_size 128
 ```
 
-To perform  attack, run `attack.py`. By default this will run all models with default parameters. To specify the types of models to test, use `--model`.
+To perform attack, run `attack.py`. By default this will run all models with default parameters. To specify the types of models to test, use `--model`.
 
 ```bash
 python attack.py --model densenet capsnet
 ```
 
 The available models currently are:
+
 - `lenet` - [LeNet, first CNN model](http://yann.lecun.com/exdb/lenet/)
 - `pure_cnn` - [A NN with just convolutional layers](https://en.wikipedia.org/wiki/Convolutional_neural_network)
 - `net_in_net` - [Network in Network](https://arxiv.org/abs/1312.4400)
@@ -80,35 +81,35 @@ Preliminary results after running several experiments on various models. Each ex
 
 **Attack on 1,3,5 pixel perturbations (100 samples)**
 
-| model              | parameters | test accuracy | pixels | attack success (untargeted)   | attack success (targeted) |
-| ------------------ | ---------- | ------------- | ------ | ----------------------------- | ------------------------- | 
-| LeNet              | 62K        | 74.9%         | 1      | 63.0%                         | 34.4%                     |
-|                    |            |               | 3      | 92.0%                         | 64.4%                     |
-|                    |            |               | 5      | 93.0%                         | 64.4%                     |
-|                    |            |               |        |                               |                           |
-| Pure CNN           | 1.4M       | 88.8%         | 1      | 13.0%                         | 6.67%                     |
-|                    |            |               | 3      | 58.0%                         | 13.3%                     |
-|                    |            |               | 5      | 63.0%                         | 18.9%                     |
-|                    |            |               |        |                               |                           |
-| Network in Network | 970K       | 90.8%         | 1      | 34.0%                         | 10.0%                     |
-|                    |            |               | 3      | 73.0%                         | 24.4%                     |
-|                    |            |               | 5      | 73.0%                         | 31.1%                     |
-|                    |            |               |        |                               |                           |
-| ResNet             | 470K       | 92.3%         | 1      | 34.0%                         | 14.4%                     |
-|                    |            |               | 3      | 79.0%                         | 21.1%                     |
-|                    |            |               | 5      | 79.0%                         | 22.2%                     |
-|                    |            |               |        |                               |                           |
-| DenseNet           | 850K       | 94.7%         | 1      | 31.0%                         | 4.44%                     |
-|                    |            |               | 3      | 71.0%                         | 23.3%                     |
-|                    |            |               | 5      | 69.0%                         | 28.9%                     |
-|                    |            |               |        |                               |                           |
-| Wide ResNet        | 11M        | 95.3%         | 1      | 19.0%                         | 1.11%                     |
-|                    |            |               | 3      | 58.0%                         | 18.9%                     |
-|                    |            |               | 5      | 65.0%                         | 22.2%                     |
-|                    |            |               |        |                               |                           |
-| CapsNet            | 12M        | 79.8%         | 1      | 19.0%                         | 0.00%                     |
-|                    |            |               | 3      | 39.0%                         | 4.44%                     |
-|                    |            |               | 5      | 36.0%                         | 4.44%                     |
+| model              | parameters | test accuracy | pixels | attack success (untargeted) | attack success (targeted) |
+| ------------------ | ---------- | ------------- | ------ | --------------------------- | ------------------------- |
+| LeNet              | 62K        | 74.9%         | 1      | 63.0%                       | 34.4%                     |
+|                    |            |               | 3      | 92.0%                       | 64.4%                     |
+|                    |            |               | 5      | 93.0%                       | 64.4%                     |
+|                    |            |               |        |                             |                           |
+| Pure CNN           | 1.4M       | 88.8%         | 1      | 13.0%                       | 6.67%                     |
+|                    |            |               | 3      | 58.0%                       | 13.3%                     |
+|                    |            |               | 5      | 63.0%                       | 18.9%                     |
+|                    |            |               |        |                             |                           |
+| Network in Network | 970K       | 90.8%         | 1      | 34.0%                       | 10.0%                     |
+|                    |            |               | 3      | 73.0%                       | 24.4%                     |
+|                    |            |               | 5      | 73.0%                       | 31.1%                     |
+|                    |            |               |        |                             |                           |
+| ResNet             | 470K       | 92.3%         | 1      | 34.0%                       | 14.4%                     |
+|                    |            |               | 3      | 79.0%                       | 21.1%                     |
+|                    |            |               | 5      | 79.0%                       | 22.2%                     |
+|                    |            |               |        |                             |                           |
+| DenseNet           | 850K       | 94.7%         | 1      | 31.0%                       | 4.44%                     |
+|                    |            |               | 3      | 71.0%                       | 23.3%                     |
+|                    |            |               | 5      | 69.0%                       | 28.9%                     |
+|                    |            |               |        |                             |                           |
+| Wide ResNet        | 11M        | 95.3%         | 1      | 19.0%                       | 1.11%                     |
+|                    |            |               | 3      | 58.0%                       | 18.9%                     |
+|                    |            |               | 5      | 65.0%                       | 22.2%                     |
+|                    |            |               |        |                             |                           |
+| CapsNet            | 12M        | 79.8%         | 1      | 19.0%                       | 0.00%                     |
+|                    |            |               | 3      | 39.0%                       | 4.44%                     |
+|                    |            |               | 5      | 36.0%                       | 4.44%                     |
 
 It appears that the capsule network CapsNet, while more resilient to the one pixel attack than all other CNNs, is still vulnerable.
 
